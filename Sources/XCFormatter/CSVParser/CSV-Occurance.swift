@@ -16,7 +16,7 @@ extension CSV {
 
 extension CSV.Occurance {
     init(string: String) {
-        self.init(lineStart: UInt(string.components(separatedBy: ",")[1])!,
-                  filePath: string.components(separatedBy: ",")[0])
+        self.init(lineStart: UInt(string.components(separatedBy: ",")[0])!,
+                  filePath: string.components(separatedBy: ",")[1])
     }
 }

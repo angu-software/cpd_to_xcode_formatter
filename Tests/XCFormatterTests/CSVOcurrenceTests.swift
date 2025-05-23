@@ -16,11 +16,11 @@ struct OccuranceTests {
 
     @Test
     func should_parse_from_string() {
-        let source = "/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift,217"
+        let source = "955,/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift"
 
         let entry = Occurance(string: source)
 
-        #expect(entry == Occurance(lineStart: 217,
+        #expect(entry == Occurance(lineStart: 955,
                                    filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift"))
     }
 }
