@@ -37,7 +37,7 @@ struct FileLocationFormattingTests {
 
     @Test
     func should_format_to_path_with_line_and_column() async throws {
-        let location = CodeDuplication.FileLocation(filePath: "/path/file.swift", begin: 3, length: 3)
+        let location = CodeDuplication.FileLocation(filePath: "/path/file.swift", begin: 3)
 
         let output = format(location, offset: 1)
 
@@ -46,8 +46,8 @@ struct FileLocationFormattingTests {
 
     @Test
     func should_format_equal_code_location_lines() {
-        let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1, length: 3)
-        let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3, length: 3)
+        let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1)
+        let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3)
 
         let output = format(location1, occuringIn: location2, offset: 1)
 
@@ -56,10 +56,10 @@ struct FileLocationFormattingTests {
 
     @Test
     func should_format_equal_code_locations() async throws {
-        let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1, length: 3)
-        let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3, length: 3)
+        let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1)
+        let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3)
 
-        let output = format(location1, occuringIn: location2)
+        let output = format(location1, occuringIn: location2, length: 3)
 
         #expect(output == """
             /path/file1.swift:1:0: warning: 📑 Line equal with file2.swift:3:0
@@ -92,9 +92,9 @@ func format(_ location1: FileLocation, occuringIn location2: FileLocation, offse
     return "\(format(location1, offset: offset)): warning: 📑 Line equal with \(format(location2, offset: offset, options: .locationFileNameOnly))"
 }
 
-func format(_ location1: FileLocation, occuringIn location2: FileLocation) -> String {
+func format(_ location1: FileLocation, occuringIn location2: FileLocation, length: Int) -> String {
     var formattedLines: [String] = []
-    for offset in 0..<location1.length {
+    for offset in 0..<length {
         formattedLines.append(format(location1, occuringIn: location2, offset: offset))
     }
     return formattedLines.joined(separator: "\n")
