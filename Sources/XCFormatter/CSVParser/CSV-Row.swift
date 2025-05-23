@@ -18,29 +18,35 @@ enum CSV {
 
 extension CSV.Row {
 
-    init(string: String) {
+    init?(string: String) {
         let lineComponents = string.components(separatedBy: ",")
         let rawLineCount = lineComponents[0]
         let rawTokenCount = lineComponents[1]
         let rawOccurancesCount = lineComponents[2]
 
-        let rawOccurances = lineComponents.suffix(from: 3).map({ $0 })
-        var groupedArrays: [[String]] = []
+        guard let lineCount = NumberParser.parse(rawLineCount),
+              let tokenCount = NumberParser.parse(rawTokenCount),
+              let occurancesCount = NumberParser.parse(rawOccurancesCount) else {
+            return nil
+        }
 
-        for i in stride(from: 0, to: rawOccurances.count, by: 2) {
-            if i + 1 < rawOccurances.count {
-                groupedArrays.append([rawOccurances[i], rawOccurances[i + 1]])
+        let occurancesComponents = lineComponents.suffix(from: 3).map({ $0 })
+        var groupedComponents: [[String]] = []
+
+        for i in stride(from: 0, to: occurancesComponents.count, by: 2) {
+            if i + 1 < occurancesComponents.count {
+                groupedComponents.append([occurancesComponents[i], occurancesComponents[i + 1]])
             }
         }
 
-        let occurances = groupedArrays.map { rawOccuranceComponents in
+        let occurances = groupedComponents.map { rawOccuranceComponents in
             let rawOccurance = rawOccuranceComponents.joined(separator: ",")
             return CSV.Occurance(string: rawOccurance)
         }
 
-        self.init(lineCount: NumberParser.parse(rawLineCount),
-                  tokenCount: NumberParser.parse(rawTokenCount),
-                  occurancesCount: NumberParser.parse(rawOccurancesCount),
+        self.init(lineCount: lineCount,
+                  tokenCount: tokenCount,
+                  occurancesCount: occurancesCount,
                   occurances: occurances)
     }
 
@@ -51,7 +57,7 @@ extension CSV.Row {
 
 struct NumberParser {
 
-    static func parse(_ string: String) -> UInt {
-        return UInt(string)!
+    static func parse(_ string: String) -> UInt? {
+        return UInt(string)
     }
 }
