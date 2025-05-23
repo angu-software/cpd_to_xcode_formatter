@@ -26,4 +26,10 @@ extension CodeDuplication.FileLocation {
     var length: Int {
         return end - begin + 1
     }
+
+    init(filePath: String, begin: Int, length: Int) {
+        self.init(filePath: filePath,
+                  begin: begin,
+                  end: begin + length - 1)
+    }
 }
