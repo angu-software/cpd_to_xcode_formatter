@@ -12,7 +12,7 @@ import Testing
 
 struct OccuranceTests {
 
-    private typealias Occurance = CSV.Row.Occurance
+    private typealias Occurance = CSV.Occurance
 
     @Test
     func should_parse_from_string() {
