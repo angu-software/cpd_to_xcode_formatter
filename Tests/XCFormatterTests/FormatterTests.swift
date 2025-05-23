@@ -11,8 +11,10 @@ import Testing
 
 struct FormatterTests {
 
+    private let formatter = Formatter()
+
     @Test
-    func should_format_to_xcode() async throws {
+    func should_format_cpd_csv_to_xcode() async throws {
         withKnownIssue("Under development") {
             let source = """
                 lines,tokens,occurrences
@@ -28,5 +30,17 @@ struct FormatterTests {
                 /Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift:342:0: warning: <<< End of duplication with DashboardViewController.swift
                 """)
         }
+    }
+
+    @Test
+    func should_format_file_to_xcode() async throws {
+        let file = Duplication.FileOccurrance(filePath: "/some/path/source.swift", begin: 1, end: 2)
+
+        let output = formatter.format(file)
+
+        #expect(output == """
+            /some/path/source.swift:1:0: warning: <<< Begin of duplication
+            /some/path/source.swift:2:0: warning: <<< End of duplication
+            """)
     }
 }
