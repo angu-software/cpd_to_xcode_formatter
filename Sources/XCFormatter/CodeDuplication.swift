@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  CodeDuplication.swift
 //  cpd_to_xcode_formatter
 //
 //  Created by Andreas Günther on 23.05.25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Duplication: Equatable {
+struct CodeDuplication: Equatable {
 
     struct FileOccurrance: Equatable {
         var filePath: String
