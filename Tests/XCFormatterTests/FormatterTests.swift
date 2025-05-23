@@ -94,7 +94,7 @@ func format(_ location1: FileLocation, occuringIn location2: FileLocation, offse
 
 func format(_ location1: FileLocation, occuringIn location2: FileLocation) -> String {
     var formattedLines: [String] = []
-    for offset in 0...(location1.end - location1.begin) {
+    for offset in 0..<location1.length {
         formattedLines.append(format(location1, occuringIn: location2, offset: offset))
     }
     return formattedLines.joined(separator: "\n")

@@ -19,3 +19,11 @@ struct CodeDuplication: Equatable {
     var tokenCount: Int
     var locations: [FileLocation]
 }
+
+
+extension CodeDuplication.FileLocation {
+
+    var length: Int {
+        return end - begin + 1
+    }
+}
