@@ -71,17 +71,19 @@ struct FileLocationFormattingTests {
 
 import Foundation
 
-struct FormatOptions: OptionSet {
-    let rawValue: Int
-
-    static let locationFileNameOnly = Self(rawValue: 1 << 0)
-}
-
 typealias FileLocation = CodeDuplication.FileLocation
 
-func format(_ location: FileLocation, offset: Int, options: FormatOptions = []) -> String {
+extension FileLocation {
+    struct FormatOptions: OptionSet {
+        let rawValue: Int
+
+        static let fileNameOnly = Self(rawValue: 1 << 0)
+    }
+}
+
+func format(_ location: FileLocation, offset: Int, options: FileLocation.FormatOptions = []) -> String {
     var file = location.filePath
-    if options.contains(.locationFileNameOnly) {
+    if options.contains(.fileNameOnly) {
         file = URL(filePath: location.filePath).lastPathComponent
     }
 
@@ -89,7 +91,7 @@ func format(_ location: FileLocation, offset: Int, options: FormatOptions = []) 
 }
 
 func format(_ location1: FileLocation, occuringIn location2: FileLocation, offset: Int) -> String {
-    return "\(format(location1, offset: offset)): warning: 📑 Line equal with \(format(location2, offset: offset, options: .locationFileNameOnly))"
+    return "\(format(location1, offset: offset)): warning: 📑 Line equal with \(format(location2, offset: offset, options: .fileNameOnly))"
 }
 
 func format(_ location1: FileLocation, occuringIn location2: FileLocation, length: Int) -> String {
