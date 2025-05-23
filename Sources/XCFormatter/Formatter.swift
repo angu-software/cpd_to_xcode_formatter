@@ -13,10 +13,10 @@ struct Formatter {
         return ""
     }
 
-    func format(_ fileOccurance: Duplication.FileOccurrance, lineSuffix: String = "") -> String {
+    func format(_ fileOccurance: Duplication.FileOccurrance, otherFileLocation: String) -> String {
         return """
-            \(fileOccurance.filePath):\(fileOccurance.begin):0: warning: <<< Begin of duplication\(lineSuffix)
-            \(fileOccurance.filePath):\(fileOccurance.end):0: warning: <<< End of duplication\(lineSuffix)
+            \(fileOccurance.filePath):\(fileOccurance.begin):0: warning: 📑 Line equal with \(otherFileLocation)
+            \(fileOccurance.filePath):\(fileOccurance.end):0: warning: 📑 Line equal with \(otherFileLocation)
             """
     }
 
@@ -30,7 +30,7 @@ struct Formatter {
             let fileName = URL(fileURLWithPath: fileOccurance.filePath).lastPathComponent
             let otherFileNames = duplicateFileNames.filter({ $0 != fileName })
 
-            fileFormats.append(format(fileOccurance, lineSuffix: " with \(otherFileNames.joined(separator: ","))"))
+            fileFormats.append(format(fileOccurance, otherFileLocation: " with \(otherFileNames.joined(separator: ","))"))
         }
 
         return fileFormats.joined(separator: "\n")
