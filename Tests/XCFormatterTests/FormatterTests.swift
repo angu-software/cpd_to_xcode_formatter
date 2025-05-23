@@ -33,14 +33,11 @@ struct FormatterTests {
     }
 }
 
-// TODO: resolve typealias
-typealias FileLocation = CodeDuplication.FileOccurrance
-
 struct FileLocationFormattingTests {
 
     @Test
     func should_format_to_path_with_line_and_column() async throws {
-        let location = CodeDuplication.FileOccurrance(filePath: "/path/file.swift", begin: 3, end: 5)
+        let location = CodeDuplication.FileLocation(filePath: "/path/file.swift", begin: 3, end: 5)
 
         let output = format(location, offset: 1)
 
@@ -49,8 +46,8 @@ struct FileLocationFormattingTests {
 
     @Test
     func should_format_equal_code_location_lines() {
-        let location1 = CodeDuplication.FileOccurrance(filePath: "/path/file1.swift", begin: 1, end: 3)
-        let location2 = CodeDuplication.FileOccurrance(filePath: "/path/file2.swift", begin: 3, end: 5)
+        let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1, end: 3)
+        let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3, end: 5)
 
         let output = format(location1, occuringIn: location2, offset: 1)
 
@@ -59,8 +56,8 @@ struct FileLocationFormattingTests {
 
     @Test
     func should_format_equal_code_locations() async throws {
-        let location1 = CodeDuplication.FileOccurrance(filePath: "/path/file1.swift", begin: 1, end: 3)
-        let location2 = CodeDuplication.FileOccurrance(filePath: "/path/file2.swift", begin: 3, end: 5)
+        let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1, end: 3)
+        let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3, end: 5)
 
         let output = format(location1, occuringIn: location2)
 
@@ -79,6 +76,8 @@ struct FormatOptions: OptionSet {
 
     static let locationFileNameOnly = Self(rawValue: 1 << 0)
 }
+
+typealias FileLocation = CodeDuplication.FileLocation
 
 func format(_ location: FileLocation, offset: Int, options: FormatOptions = []) -> String {
     var file = location.filePath

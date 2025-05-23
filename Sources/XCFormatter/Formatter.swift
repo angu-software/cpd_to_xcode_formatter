@@ -13,7 +13,7 @@ struct Formatter {
         return ""
     }
 
-    func format(_ fileOccurance: CodeDuplication.FileOccurrance, otherFileLocation: String) -> String {
+    func format(_ fileOccurance: CodeDuplication.FileLocation, otherFileLocation: String) -> String {
         return """
             \(fileOccurance.filePath):\(fileOccurance.begin):0: warning: 📑 Line equal with \(otherFileLocation)
             \(fileOccurance.filePath):\(fileOccurance.end):0: warning: 📑 Line equal with \(otherFileLocation)
@@ -22,11 +22,11 @@ struct Formatter {
 
     func format(_ duplication: CodeDuplication) -> String {
         let duplicateFileNames = duplication
-            .fileOccurances
+            .locations
             .map({ URL(fileURLWithPath: $0.filePath).lastPathComponent })
 
         var fileFormats: [String] = []
-        for fileOccurance in duplication.fileOccurances {
+        for fileOccurance in duplication.locations {
             let fileName = URL(fileURLWithPath: fileOccurance.filePath).lastPathComponent
             let otherFileNames = duplicateFileNames.filter({ $0 != fileName })
 

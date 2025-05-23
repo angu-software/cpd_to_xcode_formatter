@@ -9,7 +9,7 @@ import Foundation
 
 struct CodeDuplication: Equatable {
 
-    struct FileOccurrance: Equatable {
+    struct FileLocation: Equatable {
         var filePath: String
         var begin: Int
         var end: Int
@@ -17,5 +17,5 @@ struct CodeDuplication: Equatable {
 
     var lenght: Int
     var tokenCount: Int
-    var fileOccurances: [FileOccurrance]
+    var locations: [FileLocation]
 }
