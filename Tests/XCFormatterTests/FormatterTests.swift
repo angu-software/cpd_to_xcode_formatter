@@ -45,7 +45,7 @@ struct FileLocationFormattingTests {
     }
 
     @Test
-    func should_format_equal_code_location_lines() {
+    func should_format_equal_code_locations_with_offset() {
         let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1)
         let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3)
 
@@ -55,7 +55,7 @@ struct FileLocationFormattingTests {
     }
 
     @Test
-    func should_format_equal_code_locations() async throws {
+    func should_format_equal_code_locations_for_each_occurring_line() async throws {
         let location1 = CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1)
         let location2 = CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3)
 
