@@ -65,6 +65,27 @@ struct FileLocationFormattingTests {
             /path/file1.swift:3:0: warning: 📑 Line equal with file2.swift:5:0
             """)
     }
+
+    @Test
+    func should_format_code_duplication() async throws {
+        let duplication = CodeDuplication(length: 3,
+                                          tokenCount: 0,
+                                          locations: [
+                                            CodeDuplication.FileLocation(filePath: "/path/file1.swift", begin: 1),
+                                            CodeDuplication.FileLocation(filePath: "/path/file2.swift", begin: 3)
+                                          ])
+
+        let output = format(duplication)
+
+        #expect(output == """
+            /path/file1.swift:1:0: warning: 📑 Line equal with file2.swift:3:0
+            /path/file1.swift:2:0: warning: 📑 Line equal with file2.swift:4:0
+            /path/file1.swift:3:0: warning: 📑 Line equal with file2.swift:5:0
+            /path/file2.swift:3:0: warning: 📑 Line equal with file1.swift:1:0
+            /path/file2.swift:4:0: warning: 📑 Line equal with file1.swift:2:0
+            /path/file2.swift:5:0: warning: 📑 Line equal with file1.swift:3:0
+            """)
+    }
 }
 
 import Foundation
@@ -98,6 +119,20 @@ func format(_ location1: FileLocation, occuringIn location2: FileLocation, lengt
         formattedLines.append(format(location1, occuringIn: location2, offset: offset))
     }
     return formattedLines.joined(separator: "\n")
+}
+
+func format(_ codeDuplication: CodeDuplication) -> String {
+    var formattedLocations: [String] = []
+    let locations = codeDuplication.locations
+    let duplicationLength = codeDuplication.length
+    for location in locations {
+        let otherOtherLocations = locations.filter({ $0 != location })
+        for otherOtherLocation in otherOtherLocations {
+            formattedLocations.append(format(location, occuringIn: otherOtherLocation, length: duplicationLength))
+        }
+    }
+
+    return formattedLocations.joined(separator: "\n")
 }
 
 func format(_ source: String) -> String {
