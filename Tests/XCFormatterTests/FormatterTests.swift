@@ -11,8 +11,6 @@ import Testing
 
 struct FormatterTests {
 
-    private let formatter = XCFormatter.Formatter()
-
     @Test
     func should_format_cpd_csv_to_xcode() async throws {
         withKnownIssue("Under development") {
@@ -21,7 +19,7 @@ struct FormatterTests {
                 125,844,2,955,/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift,217,/Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift
                 """
 
-            let output = Formatter().format(source)
+            let output = format(source)
             #expect(output == """
                 ==== #1 ====
                 /Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift:955:0: warning: <<< Begin of duplication with ProfileViewController.swift
@@ -100,4 +98,8 @@ func format(_ location1: FileLocation, occuringIn location2: FileLocation, lengt
         formattedLines.append(format(location1, occuringIn: location2, offset: offset))
     }
     return formattedLines.joined(separator: "\n")
+}
+
+func format(_ source: String) -> String {
+    return ""
 }
