@@ -20,7 +20,7 @@ struct OccuranceTests {
 
         let entry = Occurance(string: source)
 
-        #expect(entry == Occurance(lineStart: 955,
-                                   filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift"))
+        #expect(entry == .fixture(lineStart: 955,
+                                  filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift"))
     }
 }

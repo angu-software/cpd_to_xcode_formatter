@@ -21,15 +21,14 @@ struct CSVRowTests {
 
         let row = Row(string: source)
 
-        #expect(row == Row(lineCount: 125,
-                           tokenCount: 844,
-                           occurancesCount: 2,
-                           occurances: [
-                            .init(lineStart: 955,
-                                  filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift"),
-                            .init(lineStart: 217,
-                                  filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift")
-                           ]))
+        #expect(row == .fixture(lineCount: 125,
+                                tokenCount: 844,
+                                occurances: [
+                                    .fixture(lineStart: 955,
+                                             filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift"),
+                                    .fixture(lineStart: 217,
+                                             filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift")
+                                ]))
     }
 
     @Test

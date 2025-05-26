@@ -28,31 +28,29 @@ struct CSVParserTests {
 
         #expect(
             rows == [
-                Row(
+                .fixture(
                     lineCount: 125,
                     tokenCount: 844,
-                    occurancesCount: 2,
                     occurances: [
-                        Occurance(
+                        .fixture(
                             lineStart: 955,
                             filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift"
                         ),
-                        Occurance(
+                        .fixture(
                             lineStart: 217,
                             filePath: "/Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift"
                         ),
                     ]
                 ),
-                Row(
+                .fixture(
                     lineCount: 100,
                     tokenCount: 668,
-                    occurancesCount: 2,
                     occurances: [
-                        Occurance(
+                        .fixture(
                             lineStart: 304,
                             filePath: "/Users/angu/Repos/pandocsios/Classes/ChallengeModal.swift"
                         ),
-                        Occurance(
+                        .fixture(
                             lineStart: 78,
                             filePath: "/Users/angu/Repos/pandocsios/Classes/Challenges/RecipeChallenge.swift"
                         ),
