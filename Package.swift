@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "cpd_to_xcode_formatter",
+    platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(
             name: "cpd_xc_format",
