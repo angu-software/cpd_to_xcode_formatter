@@ -28,6 +28,8 @@ struct FormatterTests {
                 /path/file2.swift:217:0: warning: 📑 Line equal with file1.swift:955:0
                 /path/file2.swift:218:0: warning: 📑 Line equal with file1.swift:956:0
                 /path/file2.swift:219:0: warning: 📑 Line equal with file1.swift:957:0
+                ### Summary
+                ### 1 duplications in 2 files
                 """)
     }
 }
@@ -195,7 +197,13 @@ func format(_ source: String) -> String {
     let lines = source.components(separatedBy: "\n")
     let rows = lines.compactMap({ CSV.Row(string: $0) })
     let duplications = rows.map({ CodeDuplication(csvRow: $0) })
-    return format(duplications)
+    let formatedDuplications = format(duplications)
+    let summary = formatedSummary(for: duplications)
+
+    return """
+        \(formatedDuplications)
+        \(summary)
+        """
 }
 
 func formatedSummary(for duplications: [CodeDuplication]) -> String {
