@@ -19,10 +19,17 @@ struct CLITests {
 
     @Test
     func should_print_usage() async throws {
-        try executable.run()
+        try executable.run(arguments: "--help")
 
-        #expect(executable.runResult == TestExecutable.RunResult(stdOut: "Hello, world!",
-                                                                 statusCode: 0))
+        #expect(executable.runResult?.stdOut == """
+            USAGE: cpd-xc-format <input-format>
+            
+            ARGUMENTS:
+              <input-format>
+            
+            OPTIONS:
+              -h, --help              Show help information.
+            """)
     }
 
 }

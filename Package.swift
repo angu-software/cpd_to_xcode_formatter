@@ -11,7 +11,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "cpd_xc_format",
+            name: "cpd-xc-format",
             dependencies: [.target(name: "XCFormatter"),
                            .product(name: "ArgumentParser",
                                     package: "swift-argument-parser")]
@@ -25,7 +25,7 @@ let package = Package(
         ),
         .testTarget(
             name: "CLITests",
-            dependencies: [.target(name: "cpd_xc_format")]
+            dependencies: [.target(name: "cpd-xc-format")]
         )
     ]
 )

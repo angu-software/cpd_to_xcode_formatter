@@ -35,6 +35,24 @@
             "name": "Release cpd_xc_format",
             "program": "${workspaceFolder:cpd_to_xcode_formatter}/.build/release/cpd_xc_format",
             "preLaunchTask": "swift: Build Release cpd_xc_format"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:cpd_to_xcode_formatter}",
+            "name": "Debug cpd-xc-format",
+            "program": "${workspaceFolder:cpd_to_xcode_formatter}/.build/debug/cpd-xc-format",
+            "preLaunchTask": "swift: Build Debug cpd-xc-format"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:cpd_to_xcode_formatter}",
+            "name": "Release cpd-xc-format",
+            "program": "${workspaceFolder:cpd_to_xcode_formatter}/.build/release/cpd-xc-format",
+            "preLaunchTask": "swift: Build Release cpd-xc-format"
         }
     ]
 }
