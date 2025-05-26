@@ -64,8 +64,7 @@ func format(_ codeDuplications: [CodeDuplication]) -> String {
     return formattedOutput.joined(separator: "\n")
 }
 
-func format(_ source: String) -> String {
-
+public func format(_ source: String) -> String {
     let lines = source.components(separatedBy: "\n")
     let rows = lines.compactMap({ CSV.Row(string: $0) })
     let duplications = rows.map({ CodeDuplication(csvRow: $0) })
