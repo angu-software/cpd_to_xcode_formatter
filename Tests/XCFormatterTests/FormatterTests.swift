@@ -20,6 +20,8 @@ struct FormatterTests {
 
         let output = format(source)
         #expect(output == """
+                ### Duplication #1
+                ### 3 lines with 844 tokens in 2 files
                 /path/file1.swift:955:0: warning: 📑 Line equal with file2.swift:217:0
                 /path/file1.swift:956:0: warning: 📑 Line equal with file2.swift:218:0
                 /path/file1.swift:957:0: warning: 📑 Line equal with file2.swift:219:0
@@ -153,17 +155,24 @@ func format(_ codeDuplication: CodeDuplication) -> String {
     return formattedLocations.joined(separator: "\n")
 }
 
+func format(_ codeDuplications: [CodeDuplication]) -> String {
+    var formattedOutput: [String] = []
+    for (index, codeDuplication) in codeDuplications.enumerated() {
+        formattedOutput.append("""
+            ### Duplication #\(index + 1)
+            ### \(codeDuplication.length) lines with \(codeDuplication.tokenCount) tokens in \(codeDuplication.locations.count) files
+            \(format(codeDuplication))
+            """)
+    }
+    return formattedOutput.joined(separator: "\n")
+}
+
 func format(_ source: String) -> String {
 
     let lines = source.components(separatedBy: "\n")
     let rows = lines.compactMap({ CSV.Row(string: $0) })
     let duplications = rows.map({ CodeDuplication(csvRow: $0) })
-    let formattedDuplications = duplications.map({ format($0) })
-
-    // TODO:
-    // - source -> [Rows]
-    // - convert [Rows] -> CodeDuplication
-    return formattedDuplications.joined(separator: "\n")
+    return format(duplications)
 }
 
 extension CodeDuplication {
