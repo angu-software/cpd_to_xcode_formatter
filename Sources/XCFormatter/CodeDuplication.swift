@@ -9,12 +9,12 @@ import Foundation
 
 struct CodeDuplication: Equatable {
 
-    struct FileLocation: Equatable {
+    struct Location: Equatable {
         var filePath: String
         var begin: Int
     }
 
     var length: Int
     var tokenCount: Int
-    var locations: [FileLocation]
+    var locations: [Location]
 }
