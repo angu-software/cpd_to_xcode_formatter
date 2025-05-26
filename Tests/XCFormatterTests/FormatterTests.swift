@@ -87,6 +87,29 @@ struct LocationFormattingTests {
             /path/file2.swift:5:0: warning: 📑 Line equal with file1.swift:3:0
             """)
     }
+
+    @Test
+    func should_format_duplication_summary() async throws {
+        let duplications = [CodeDuplication(length: 3,
+                                            tokenCount: 0,
+                                            locations: [
+                                                CodeDuplication.Location(filePath: "/path/file1.swift", begin: 1),
+                                                CodeDuplication.Location(filePath: "/path/file2.swift", begin: 3)
+                                            ]),
+                            CodeDuplication(length: 5,
+                                            tokenCount: 0,
+                                            locations: [
+                                                CodeDuplication.Location(filePath: "/path/file1.swift", begin: 1),
+                                                CodeDuplication.Location(filePath: "/path/file3.swift", begin: 3)
+                                            ])]
+
+        let output = formatedSummary(for: duplications)
+
+        #expect(output == """
+            ### Summary
+            ### 2 duplications in 3 files
+            """)
+    }
 }
 
 struct CodeDuplicationConversionTests {
@@ -173,6 +196,17 @@ func format(_ source: String) -> String {
     let rows = lines.compactMap({ CSV.Row(string: $0) })
     let duplications = rows.map({ CodeDuplication(csvRow: $0) })
     return format(duplications)
+}
+
+func formatedSummary(for duplications: [CodeDuplication]) -> String {
+    let locations = duplications.flatMap({ $0.locations })
+    let fileNames = locations.map({ $0.filePath })
+    let filesCount = Set(fileNames).count
+
+    return """
+        ### Summary
+        ### \(duplications.count) duplications in \(filesCount) files
+        """
 }
 
 extension CodeDuplication {
