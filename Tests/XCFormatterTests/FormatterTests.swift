@@ -88,6 +88,25 @@ struct LocationFormattingTests {
     }
 }
 
+struct CodeDuplicationConversionTests {
+
+    @Test
+    func should_init_from_Row() async throws {
+        let row = CSV.Row.fixture()
+
+        let duplication = CodeDuplication(csvRow: row)
+
+        #expect(duplication == CodeDuplication(length: 10,
+                                               tokenCount: 20,
+                                               locations: [
+                                                .init(filePath: "/path/file.swift",
+                                                      begin: 1),
+                                                .init(filePath: "/path/file.swift",
+                                                      begin: 1)
+                                               ]))
+    }
+}
+
 import Foundation
 
 typealias FileLocation = CodeDuplication.Location
@@ -140,4 +159,21 @@ func format(_ source: String) -> String {
     // - source -> [Rows]
     // - convert [Rows] -> CodeDuplication
     return ""
+}
+
+extension CodeDuplication {
+
+    init(csvRow: CSV.Row) {
+        self.init(length: Int(csvRow.lineCount),
+                  tokenCount: Int(csvRow.tokenCount),
+                  locations: csvRow.occurances.map({ CodeDuplication.Location(csvOccurance: $0) }))
+    }
+}
+
+extension CodeDuplication.Location {
+
+    init(csvOccurance: CSV.Occurance) {
+        self.init(filePath: csvOccurance.filePath,
+                  begin: Int(csvOccurance.lineStart))
+    }
 }
