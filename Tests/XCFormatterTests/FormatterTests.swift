@@ -13,21 +13,20 @@ struct FormatterTests {
 
     @Test
     func should_format_cpd_csv_to_xcode() async throws {
-        withKnownIssue("Under development") {
-            let source = """
+        let source = """
                 lines,tokens,occurrences
-                125,844,2,955,/Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift,217,/Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift
+                3,844,2,955,/path/file1.swift,217,/path/file2.swift
                 """
 
-            let output = format(source)
-            #expect(output == """
-                ==== #1 ====
-                /Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift:955:0: warning: <<< Begin of duplication with ProfileViewController.swift
-                /Users/angu/Repos/pandocsios/Pandocs/Controller/DashboardController/DashboardViewController.swift:1080:0: warning: <<< End of duplication with ProfileViewController.swift
-                /Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift:217:0: warning: <<< Begin of duplication with DashboardViewController.swift
-                /Users/angu/Repos/pandocsios/Pandocs/Controller/ProfileController/ProfileViewController.swift:342:0: warning: <<< End of duplication with DashboardViewController.swift
+        let output = format(source)
+        #expect(output == """
+                /path/file1.swift:955:0: warning: 📑 Line equal with file2.swift:217:0
+                /path/file1.swift:956:0: warning: 📑 Line equal with file2.swift:218:0
+                /path/file1.swift:957:0: warning: 📑 Line equal with file2.swift:219:0
+                /path/file2.swift:217:0: warning: 📑 Line equal with file1.swift:955:0
+                /path/file2.swift:218:0: warning: 📑 Line equal with file1.swift:956:0
+                /path/file2.swift:219:0: warning: 📑 Line equal with file1.swift:957:0
                 """)
-        }
     }
 }
 
@@ -155,10 +154,16 @@ func format(_ codeDuplication: CodeDuplication) -> String {
 }
 
 func format(_ source: String) -> String {
+
+    let lines = source.components(separatedBy: "\n")
+    let rows = lines.compactMap({ CSV.Row(string: $0) })
+    let duplications = rows.map({ CodeDuplication(csvRow: $0) })
+    let formattedDuplications = duplications.map({ format($0) })
+
     // TODO:
     // - source -> [Rows]
     // - convert [Rows] -> CodeDuplication
-    return ""
+    return formattedDuplications.joined(separator: "\n")
 }
 
 extension CodeDuplication {
