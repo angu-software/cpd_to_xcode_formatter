@@ -38,11 +38,12 @@ final class TestExecutable {
     }
 
     let name: String
-    let launchPath = ProcessInfo.processInfo.environment["PWD"]!
+    let launchPath = Bundle(for: TestExecutable.self).bundlePath
 
     var executableURL: URL {
         return URL(filePath: launchPath,
                    directoryHint: .isDirectory)
+        .deletingLastPathComponent()
         .appending(component: name,
                    directoryHint: .notDirectory)
 
@@ -77,6 +78,7 @@ final class TestExecutable {
         process.standardError = errPipe
 
         try process.run()
+        process.waitUntilExit()
 
         let stdData = stdPipe.fileHandleForReading.readDataToEndOfFile()
         let errData = errPipe.fileHandleForReading.readDataToEndOfFile()
