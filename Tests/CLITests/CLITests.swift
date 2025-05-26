@@ -14,7 +14,7 @@ struct CLITests {
     private let executable: TestExecutable
 
     init() {
-        self.executable = TestExecutable("cpd_xc_format")
+        self.executable = TestExecutable("cpd-xc-format")
     }
 
     @Test
@@ -22,11 +22,11 @@ struct CLITests {
         try executable.run(arguments: "--help")
 
         #expect(executable.runResult?.stdOut == """
-            USAGE: cpd-xc-format <input-format>
-            
+            USAGE: cpd-xc-format <file-path>
+
             ARGUMENTS:
-              <input-format>
-            
+              <file-path>             The path to the file containing the cpd csv output
+
             OPTIONS:
               -h, --help              Show help information.
             """)

@@ -6,7 +6,8 @@ import ArgumentParser
 @main
 struct CpdXcFormat: ParsableCommand {
 
-    @Argument var inputFormat: String
+    @Argument(help: "The path to the file containing the cpd csv output")
+    var filePath: String
 
     mutating func run() throws {
         print("Hello, world!")
