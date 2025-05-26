@@ -32,8 +32,17 @@ struct CSVRowTests {
     }
 
     @Test
-    func sould_not_parse_first_rwo_from_csv_string() {
+    func sould_not_parse_first_row_from_csv_string() {
         let source = "lines,tokens,occurrences"
+
+        let row = Row(string: source)
+
+        #expect(row == nil)
+    }
+
+    @Test
+    func should_not_parse_invalid_input() {
+        let source = "asdfsadfsdf"
 
         let row = Row(string: source)
 
