@@ -17,6 +17,10 @@ let package = Package(
         .testTarget(
             name: "XCFormatterTests",
             dependencies: [.target(name: "XCFormatter")]
+        ),
+        .testTarget(
+            name: "CLITests",
+            dependencies: [.target(name: "cpd_xc_format")]
         )
     ]
 )
