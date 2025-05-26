@@ -25,7 +25,8 @@ let package = Package(
         ),
         .testTarget(
             name: "CLITests",
-            dependencies: [.target(name: "cpd-xc-format")]
+            dependencies: [.target(name: "cpd-xc-format")],
+            resources: [.copy("Fixtures/duplicates.csv")]
         )
     ]
 )

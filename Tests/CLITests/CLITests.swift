@@ -32,6 +32,24 @@ struct CLITests {
             """)
     }
 
+    @Test
+    func shoult_print_duplications_in_xcode_format() throws {
+        let filePath = try #require(Bundle.module.path(forResource: "duplicates", ofType: "csv"))
+        try executable.run(arguments: filePath)
+
+        #expect(executable.runResult?.stdOut == """
+                ### Duplication #1
+                ### 3 lines with 844 tokens in 2 files
+                /path/file1.swift:955:0: warning: 📑 Line equal with file2.swift:217:0
+                /path/file1.swift:956:0: warning: 📑 Line equal with file2.swift:218:0
+                /path/file1.swift:957:0: warning: 📑 Line equal with file2.swift:219:0
+                /path/file2.swift:217:0: warning: 📑 Line equal with file1.swift:955:0
+                /path/file2.swift:218:0: warning: 📑 Line equal with file1.swift:956:0
+                /path/file2.swift:219:0: warning: 📑 Line equal with file1.swift:957:0
+                ### Summary
+                ### 1 duplications in 2 files
+                """)
+    }
 }
 
 final class TestExecutable {
